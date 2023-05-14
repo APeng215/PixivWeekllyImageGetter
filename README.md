@@ -1,3 +1,4 @@
 # PixivWeekllyImageGetter
 pixiv周榜一键下载
-!!!需要开启代理哦!!!
+!!!需要开启代理哦!!!\n
+https://objects.githubusercontent.com/github-production-release-asset-2e65be/640444723/54b74d48-514c-4382-bfc2-e72e1ae7f9d8?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20230514%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230514T054557Z&X-Amz-Expires=300&X-Amz-Signature=446032c88ab3a4316eb4d715be9a107f6a27ba6a24afb74b7014cd31f1d6b5a2&X-Amz-SignedHeaders=host&actor_id=42003543&key_id=0&repo_id=640444723&response-content-disposition=attachment%3B%20filename%3DPixivGetter.zip&response-content-type=application%2Foctet-stream
