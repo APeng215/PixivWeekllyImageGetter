@@ -84,7 +84,7 @@ import java.util.List;
                 fileName += ".jpg";
             }
             //文件输出流
-            var pngFileOutputStream = new FileOutputStream(new File("Images\\" + date, fileName));
+            var pngFileOutputStream = new FileOutputStream(new File("Images\\" + date + Main.MODE, fileName));
             //开始下载
             var bytes = input.readAllBytes();
             input.close();

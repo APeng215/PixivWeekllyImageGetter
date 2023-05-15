@@ -3,6 +3,7 @@ package org.tkod.pixiv.weekly.PageGetter;
 import org.tkod.pixiv.weekly.Main.Main;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class PageGetter {
     private String date;
-    private static String headUrlStr = "https://www.pixiv.net/ranking.php?mode=weekly&date=";
+    public static String headUrlStr = "https://www.pixiv.net/ranking.php?mode=weekly&date=";
     private static String middleUrlStr = "&p=";
     private static String tailUrlStr = "&format=json";
     public void setDate(String date) {
@@ -31,6 +32,10 @@ public class PageGetter {
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection(Main.getProxy());
                 //设置GET报文
                 connection.setRequestMethod("GET");
+                if(Main.MODE.equals("R18")){//对于R18,需要添加的Header
+                    connection.setRequestProperty("cookie",Main.COOKIES);
+                    connection.setRequestProperty("user-agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36");
+                }
                 //建立 连接
                 connection.connect();
                 var input = connection.getInputStream();
@@ -50,6 +55,7 @@ public class PageGetter {
                 }
                 connection.disconnect();
             }
+        }catch (FileNotFoundException ignored){
         }catch (Exception e){
             e.printStackTrace();
         }
