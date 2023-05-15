@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'org.tkod.pixiv.weekly'
-version = '1.0-SNAPSHOT'
+version = '2.0-normal/R18'
 
 repositories {
     mavenLocal()
