@@ -59,7 +59,6 @@ public class Main {
                             1 normal
                             2 R18
                             请选择爬虫模式:
-                            
                             """
             );
             var modeInput = new Scanner(System.in).nextInt();
@@ -84,14 +83,14 @@ public class Main {
             try{
                 //文本提示
                 var scanner = new Scanner(System.in);
-                System.out.println("\n请输入需要下载的周榜的起始日期(不包含)：\n");
-                System.out.println("\n年份：\n");
+                System.out.println("请输入需要下载的周榜的起始日期(不包含)：");
+                System.out.print("年份：");
                 var year = scanner.nextInt();
                 calendar.set(Calendar.YEAR,year);
-                System.out.println("\n月：\n");
+                System.out.print("月：");
                 var month = scanner.nextInt();
                 calendar.set(Calendar.MONTH,month-1);
-                System.out.println("\n日：\n");
+                System.out.print("日：");
                 var day = scanner.nextInt();
                 calendar.set(Calendar.DAY_OF_MONTH,day);
                 dateNeeded = false;
@@ -112,6 +111,8 @@ public class Main {
                 System.out.println("请不要给我一些奇怪的数据啊喂 (#`O′)\n");
             }
         }
+        //主线程
+        var MainThread = Thread.currentThread();
         //创建 容量为 3 的 线程池
         var pool = Executors.newFixedThreadPool(3);
         //添加下载线程
@@ -120,7 +121,7 @@ public class Main {
             calendar.add(Calendar.WEEK_OF_YEAR,-1);
             //获得日期字符串
             final var date =
-                    String.valueOf(calendar.get(Calendar.YEAR)) +
+                    calendar.get(Calendar.YEAR) +
                     String.format("%02d",calendar.get(Calendar.MONTH) + 1) +
                     String.format("%02d",calendar.get(Calendar.DAY_OF_MONTH));
             //创建 周榜文件夹
@@ -145,13 +146,24 @@ public class Main {
                 imageGetter.setUrlStrs(pageUrls);
                 imageGetter.setDate(date);
                 imageGetter.downloadNow();
+                try{
+                    //尝试激活主线程
+                    synchronized (MainThread){
+                        MainThread.notify();
+                    }
+                }catch (Exception ignored){}
             });
         }
-        //预定 线程池的终止
+        //预定线程结束
         pool.shutdown();
+        //检测程序结束
         while(true){
             try {
-                Thread.sleep(1000);
+                //休眠主线程
+                synchronized (MainThread){
+                    Thread.currentThread().wait();
+                    MainThread.wait(2000);
+                }
                 //检测线程池
                 if(pool.isTerminated()){
                     System.out.println("程序已退出!!");
@@ -180,8 +192,8 @@ public class Main {
             Main.proxy = proxy;
         } else {
             // 没有设置代理
-            System.out.println("未检测到系统代理，程序将无法访问Pixiv！！！");
-            System.exit(-1);
+            System.out.println("警告：未检测到系统代理！！！");
+//            System.exit(-1);
         }
     }
 
